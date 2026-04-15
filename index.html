@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <title>TalentStack – praca dla programistów | rekrutacja IT</title>
+
+  <meta name="description" content="TalentStack łączy najlepszych inżynierów oprogramowania z firmami technologicznymi. Znajdź wymarzoną pracę jako developer lub zatrudnij elitarne talenty." />
+  <meta name="keywords" content="praca programista, oferty pracy IT, rekrutacja IT, developer jobs, remote jobs, Node.js, React, AWS" />
+  <meta name="author" content="TalentStack" />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="canonical" href="https://talentstack.com" />
+
+  <!-- OG -->
+  <meta property="og:title" content="TalentStack – Twoja kariera w IT zaczyna się tutaj" />
+  <meta property="og:description" content="Praca dla frontend, backend, fullstack i DevOps. Dołącz do najlepszych firm." />
+  <meta property="og:image" content="https://via.placeholder.com/1200x630?text=TalentStack" />
+  <meta property="og:url" content="https://talentstack.com" />
+
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="src/styles.css" />
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- ================= HEADER ================= -->
+  <header>
+    <div class="logo"><a href="/">TalentStack</a></div>
+
+    <nav>
+      <a href="#">Jobs</a>
+      <a href="#">Companies</a>
+      <a href="#">Tips</a>
+      <a href="subsite/dashboard.html">Dashboard</a>
+
+      <!-- AUTH -->
+      <div class="auth-dropdown">
+  <button class="btn btn-secondary" id="authBtn">Account</button>
+
+  <div id="authBox" class="auth-box">
+    <input class="input" type="email" placeholder="Email" />
+    <input class="input" type="password" placeholder="Hasło" />
+
+    <button class="btn btn-primary">Login</button>
+    <button class="btn btn-secondary">Register</button>
+  </div>
+</div>
+
+      <!-- iOS TOGGLE -->
+      <label class="ios-switch">
+        <input type="checkbox" id="themeToggle" />
+        <span class="ios-slider"></span>R
+      </label>
+
+    </nav>
+  </header>
+
+
+  <!-- ================= MAIN ================= -->
+  <main>
+
+    <!-- HERO -->
+    <section class="hero reveal">
+      <div class="hero-content">
+        <h1>
+          Znajdź... <br>
+          <span class="highlight" id="typedText"></span>
+          <span class="cursor"></span>
+        </h1>
+
+        <p>
+          Łączymy topowych inżynierów z firmami technologicznymi. 
+          Twoja wymarzona praca jest o kliknięcie stąd.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#" class="btn btn-primary">Przeglądaj oferty</a>
+          <a href="#" class="btn btn-secondary">Dla firm</a>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <div class="floating-elements">
+          <span class="floating-icon">⚛️</span>
+          <span class="floating-icon">🐍</span>
+          <span class="floating-icon">☕</span>
+          <span class="floating-icon">📱</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- STATS -->
+    <section class="stats-section reveal">
+      <div class="stat-item">
+        <span class="stat-number" data-target="1200">0</span>
+        <span class="stat-label">aktywnych ofert</span>
+      </div>
+
+      <div class="stat-item">
+        <span class="stat-number" data-target="850">0</span>
+        <span class="stat-label">firm technologicznych</span>
+      </div>
+
+      <div class="stat-item">
+        <span class="stat-number" data-target="98">0</span>
+        <span class="stat-label">% satysfakcji</span>
+      </div>
+
+      <div class="stat-item">
+        <span class="stat-number" data-target="3200">0</span>
+        <span class="stat-label">zatrudnionych developerów</span>
+      </div>
+    </section>
+
+
+    <!-- ROLES -->
+    <section class="roles reveal">
+      <div class="role-card">Frontend Developer</div>
+      <div class="role-card">Backend (Node.js)</div>
+      <div class="role-card">Fullstack</div>
+      <div class="role-card">DevOps</div>
+      <div class="role-card">Mobile (React Native)</div>
+      <div class="role-card">AI/ML Engineer</div>
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works reveal">
+      <h2>Jak działa TalentStack?</h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Załóż konto</h3>
+          <p>Rejestracja zajmuje 2 minuty – jako kandydat lub pracodawca.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Dopasowanie</h3>
+          <p>Nasz algorytm proponuje oferty lub kandydatów idealnie pasujących do twoich umiejętności.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Aplikuj / rekrutuj</h3>
+          <p>Jednym kliknięciem wyślij CV lub zaproś programistę na rozmowę.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- JOBS -->
+    <section class="jobs reveal">
+      <div class="jobs-header">
+        <h2>Najnowsze oferty pracy</h2>
+
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Szukaj stanowiska, technologii..." />
+          <button class="btn btn-primary" id="searchBtn">Szukaj</button>
+        </div>
+      </div>
+
+      <div class="jobs-layout">
+
+        <!-- FILTERS -->
+        <aside class="filters">
+          <h3>Filtry</h3>
+
+          <fieldset>
+            <legend>Technologie</legend>
+            <label><input type="checkbox" value="node" class="filter-tech"> Node.js</label>
+            <label><input type="checkbox" value="react" class="filter-tech"> React</label>
+            <label><input type="checkbox" value="aws" class="filter-tech"> AWS</label>
+            <label><input type="checkbox" value="python" class="filter-tech"> Python</label>
+            <label><input type="checkbox" value="java" class="filter-tech"> Java</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Remote</legend>
+            <label><input type="checkbox" id="filterRemote"> Tylko zdalne</label>
+          </fieldset>
+
+          <button id="resetFiltersBtn" class="btn btn-secondary">Resetuj filtry</button>
+        </aside>
+
+        <!-- JOB LIST -->
+        <div class="job-list" id="jobList"></div>
+      </div>
+
+      <div class="pagination">
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn next">→</button>
+      </div>
+    </section>
+
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials reveal">
+      <h2>Co mówią nasi użytkownicy?</h2>
+
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">„Dzięki TalentStack znalazłem wymarzoną pracę jako senior backend w ciągu 2 tygodni.”</p>
+          <p class="testimonial-author">— Katarzyna, Backend Developer</p>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="testimonial-text">„Zatrudniliśmy dwóch fullstack developerów najwyższej klasy.”</p>
+          <p class="testimonial-author">— TechLead</p>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="testimonial-text">„Świetne dopasowanie ofert.”</p>
+          <p class="testimonial-author">— Michał</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- PARTNERS -->
+    <section class="partners reveal">
+      <h2>Zaufali nam liderzy technologii</h2>
+
+      <div class="partner-logos">
+        <span class="partner-logo">TechCorp</span>
+        <span class="partner-logo">InnoWave</span>
+        <span class="partner-logo">DevStack</span>
+        <span class="partner-logo">FutureSoft</span>
+        <span class="partner-logo">CodeLab</span>
+        <span class="partner-logo">DataMind</span>
+      </div>
+    </section>
+
+
+    <!-- CTA -->
+    <section class="cta reveal">
+      <h2>Start Hiring or Get Hired Today</h2>
+      <p>Dołącz do społeczności najlepszych inżynierów i pracodawców.</p>
+      <a href="dashboard.html" class="btn btn-primary btn-large">Rozpocznij →</a>
+    </section>
+
+  </main>
+
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="footer-columns">
+
+      <div class="footer-col">
+        <h4>TalentStack</h4>
+        <p>Łączymy talenty z firmami przyszłości.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Dla kandydatów</h4>
+        <ul>
+          <li><a href="#">Oferty</a></li>
+          <li><a href="#">Porady</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Dla firm</h4>
+        <ul>
+          <li><a href="#">Dodaj ofertę</a></li>
+          <li><a href="#">Cennik</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col newsletter">
+        <h4>Newsletter</h4>
+        <form id="newsletterForm">
+          <input type="email" placeholder="Email" required />
+          <button class="btn btn-secondary">Zapisz się</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 TalentStack</p>
+    </div>
+  </footer>
+
+</div>
+
+
+<!-- JS -->
+<script src="src/script.js"></script>
+<script src="src/theme.js"></script>
+
+</body>
+</html>

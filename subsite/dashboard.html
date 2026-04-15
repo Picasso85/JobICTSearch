@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>TalentStack Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="../src/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+  <!-- =========================================================
+       SIDEBAR
+  ========================================================= -->
+  <aside class="sidebar">
+
+    <div class="sidebar-header">
+      <h1 class="logo">TalentStack</h1>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" data-section="overview" class="active">📊 Overview</a>
+      <a href="#" data-section="jobs">💼 Jobs</a>
+      <a href="#" data-section="applications">📄 Applications</a>
+      <a href="#" data-section="messages">💬 Messages</a>
+      <a href="#" data-section="profile">👤 Profile</a>
+      <a href="#" data-section="settings">⚙️ Settings</a>
+    </nav>
+
+    <button id="logoutBtn" class="btn btn-danger">
+  🚪 <span>Wyloguj się</span>
+    </button>
+
+  </aside>
+
+  <!-- =========================================================
+       MAIN CONTENT
+  ========================================================= -->
+  <main class="main-content">
+
+    <!-- =========================================================
+         TOPBAR (THEME BUTTON + USER INFO)
+    ========================================================= -->
+    <div class="topbar">
+
+      <div class="topbar-left">
+        <h2 id="sectionTitle">Overview</h2>
+      </div>
+
+      <div class="topbar-center">
+        <input class="search-bar" placeholder="Search jobs, messages...">
+      </div>
+
+      <div class="topbar-right">
+
+        <div class="badge">🔔 <span id="notifCount">5</span></div>
+
+        <!-- THEME BUTTON -->
+        <label class="ios-switch">
+          <input type="checkbox" id="themeToggle" />
+          <span class="ios-slider"></span>R
+        </label>
+
+      </div>
+    </div>
+
+    <!-- =========================================================
+         OVERVIEW
+    ========================================================= -->
+    <section id="overview" class="dash-section active">
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><h3>Jobs</h3><p id="statsJobs">18</p></div>
+        <div class="kpi-card"><h3>Applications</h3><p id="statsApps">12</p></div>
+        <div class="kpi-card"><h3>Views</h3><p id="statsViews">342</p></div>
+        <div class="kpi-card"><h3>Messages</h3><p id="statsMessages">9</p></div>
+      </div>
+
+      <div class="overview-grid">
+
+        <div class="panel">
+          <h3>Activity Chart</h3>
+          <canvas id="activityChart" height="120"></canvas>
+        </div>
+
+        <div class="panel">
+          <h3>Recent Activity</h3>
+          <ul>
+            <li>📄 Applied to React Developer</li>
+            <li>💼 New job posted</li>
+            <li>💬 Recruiter sent message</li>
+            <li>👀 Profile viewed 12 times</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================================================
+         JOBS
+    ========================================================= -->
+    <section id="jobs" class="dash-section">
+
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <h2>Jobs Board</h2>
+          <button class="btn btn-primary" id="showAddJobModal">+ Add Job</button>
+        </div>
+      </div>
+
+      <div id="myJobsList"></div>
+
+    </section>
+
+    <!-- =========================================================
+         APPLICATIONS
+    ========================================================= -->
+    <section id="applications" class="dash-section">
+
+      <div class="panel">
+        <h2>Applications</h2>
+        <p>Track all your job applications</p>
+      </div>
+
+      <div class="panel">
+        <div id="applicationsList"></div>
+      </div>
+
+    </section>
+
+    <!-- =========================================================
+         MESSAGES
+    ========================================================= -->
+    <section id="messages" class="dash-section">
+
+      <div class="overview-grid">
+
+        <div class="panel">
+          <h3>Conversations</h3>
+          <div>
+            <div class="chat-user">Recruiter Anna</div>
+            <div class="chat-user">HR Team</div>
+            <div class="chat-user">TalentStack Bot</div>
+          </div>
+        </div>
+
+        <div class="chat-window">
+
+          <div id="chatMessages"></div>
+
+          <div style="display:flex;gap:10px;padding:12px;">
+            <input id="chatInput" placeholder="Write message...">
+            <button id="sendMsgBtn" class="btn btn-primary">Send</button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================================================
+         PROFILE
+    ========================================================= -->
+    <section id="profile" class="dash-section">
+
+      <div class="overview-grid">
+
+        <div class="panel">
+          <h3>Profile Picture</h3>
+          <div style="font-size:80px;text-align:center;">👤</div>
+          <button class="btn">Change Photo</button>
+        </div>
+
+        <div class="panel">
+          <h3>Profile Info</h3>
+
+          <input placeholder="Full name" value="Jan Kowalski">
+          <input placeholder="Email" value="jan@email.com">
+          <textarea placeholder="Bio">Frontend Developer</textarea>
+
+          <button class="btn btn-primary">Save</button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================================================
+         SETTINGS
+    ========================================================= -->
+    <section id="settings" class="dash-section">
+
+      <div class="panel">
+        <h2>Settings</h2>
+
+        <label>Notifications</label>
+        <input type="checkbox">
+
+        <label>Dark Mode</label>
+        <input type="checkbox">
+
+        <label>Email updates</label>
+        <input type="checkbox">
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+<!-- =========================================================
+     MODAL
+========================================================= -->
+<div class="modal-overlay" id="addJobModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h3>Add Job</h3>
+      <button class="modal-close">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <input id="jobTitle" placeholder="Job title">
+      <input id="jobLocation" placeholder="Location">
+      <textarea id="jobDesc" placeholder="Description"></textarea>
+    </div>
+
+    <div class="modal-footer">
+      <button id="saveJobBtn" class="btn btn-primary">Save</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="../src/dashboard.js"></script>
+
+</body>
+</html>
