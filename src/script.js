@@ -1,5 +1,5 @@
 /* =========================
-   1. THEME TOGGLE
+   THEME TOGGLE
 ========================= */
 
 const toggle = document.getElementById("themeToggle");
@@ -30,7 +30,6 @@ authBtn.addEventListener("click", (e) => {
   authBox.classList.toggle("show");
 });
 
-/* klik poza = zamknij */
 document.addEventListener("click", (e) => {
   if (!authBox.contains(e.target) && !authBtn.contains(e.target)) {
     authBox.classList.remove("show");
@@ -38,7 +37,7 @@ document.addEventListener("click", (e) => {
 });
 
 /* =========================
-   3. REVEAL ANIMATION
+   REVEAL ANIMATION
 ========================= */
 
 const reveals = document.querySelectorAll(".reveal");
@@ -56,45 +55,139 @@ window.addEventListener("scroll", revealOnScroll);
 revealOnScroll();
 
 /* =========================
-   4. FAKE JOB DATA
+   MOCK DATA (FIXED)
 ========================= */
 
-const jobs = Array.from({ length: 30 }, (_, i) => ({
-  title: `Frontend Developer ${i + 1}`,
-  company: "TechCorp",
-  tech: ["React", "Node"],
-  remote: i % 2 === 0,
-  date: "2 dni temu"
-}));
+const jobs = [
+  {
+    title: "Frontend Developer",
+    company: "TechCorp",
+    tech: ["react"],
+    remote: true,
+    date: "2 dni temu",
+  },
+  {
+    title: "Backend Developer",
+    company: "InnoWave",
+    tech: ["node", "aws"],
+    remote: false,
+    date: "1 dzień temu",
+  },
+  {
+    title: "Fullstack Engineer",
+    company: "DevStack",
+    tech: ["react", "node"],
+    remote: true,
+    date: "3 dni temu",
+  },
+  {
+    title: "Python Developer",
+    company: "DataMind",
+    tech: ["python", "aws"],
+    remote: true,
+    date: "5 dni temu",
+  },
+  {
+    title: "Java Engineer",
+    company: "FutureSoft",
+    tech: ["java"],
+    remote: false,
+    date: "7 dni temu",
+  },
+  {
+    title: "React Developer",
+    company: "CodeLab",
+    tech: ["react"],
+    remote: true,
+    date: "1 tydzień temu",
+  },
+  {
+    title: "Node.js Engineer",
+    company: "TechCorp",
+    tech: ["node"],
+    remote: false,
+    date: "2 tygodnie temu",
+  },
+  {
+    title: "DevOps Engineer",
+    company: "CloudOps",
+    tech: ["aws"],
+    remote: true,
+    date: "3 dni temu",
+  },
+];
 
 /* =========================
-   5. PAGINATION
+   STATE (KLUCZ FIXA)
+========================= */
+
+let currentPage = 1;
+const jobsPerPage = 4;
+
+let searchQuery = "";
+let selectedTech = new Set();
+let remoteOnly = false;
+
+/* =========================
+   DOM
 ========================= */
 
 const jobList = document.getElementById("jobList");
 const pageButtons = document.querySelectorAll(".page-btn");
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+const resetBtn = document.getElementById("resetFiltersBtn");
+const remoteCheckbox = document.getElementById("filterRemote");
+const techCheckboxes = document.querySelectorAll(".filter-tech");
 
-let currentPage = 1;
-const jobsPerPage = 6;
+/* =========================
+   FILTER ENGINE (CORE FIX)
+========================= */
 
-/* render jobs */
+function getFilteredJobs() {
+  return jobs.filter((job) => {
+    const matchSearch =
+      job.title.toLowerCase().includes(searchQuery) ||
+      job.company.toLowerCase().includes(searchQuery);
+
+    const matchRemote = remoteOnly ? job.remote : true;
+
+    const matchTech =
+      selectedTech.size === 0 ||
+      job.tech.some((t) => selectedTech.has(t));
+
+    return matchSearch && matchRemote && matchTech;
+  });
+}
+
+/* =========================
+   RENDER
+========================= */
+
 function renderJobs() {
-  jobList.innerHTML = "";
+  const filtered = getFilteredJobs();
 
   const start = (currentPage - 1) * jobsPerPage;
   const end = start + jobsPerPage;
-  const pageJobs = jobs.slice(start, end);
 
-  pageJobs.forEach(job => {
+  const pageJobs = filtered.slice(start, end);
+
+  jobList.innerHTML = "";
+
+  pageJobs.forEach((job) => {
     const el = document.createElement("div");
     el.className = "job-card";
 
     el.innerHTML = `
       <h3>${job.title}</h3>
-      <div class="job-meta">${job.company} • ${job.remote ? "Remote" : "On-site"}</div>
+      <div class="job-meta">${job.company} • ${
+      job.remote ? "Remote" : "On-site"
+    }</div>
+
       <div class="job-tags">
-        ${job.tech.map(t => `<span class="badge">${t}</span>`).join("")}
+        ${job.tech.map((t) => `<span class="badge">${t}</span>`).join("")}
       </div>
+
       <div class="job-footer">
         <span class="job-date">${job.date}</span>
         <button class="btn btn-primary">Apply</button>
@@ -103,82 +196,105 @@ function renderJobs() {
 
     jobList.appendChild(el);
   });
+
+  updatePagination(filtered.length);
 }
 
-/* change page */
-function changePage(page) {
-  const totalPages = Math.ceil(jobs.length / jobsPerPage);
+/* =========================
+   PAGINATION FIX
+========================= */
 
-  if (page === "next") {
-    currentPage = Math.min(currentPage + 1, totalPages);
-  } else {
-    currentPage = page;
-  }
+function updatePagination(totalItems) {
+  const totalPages = Math.ceil(totalItems / jobsPerPage);
 
-  /* active button */
-  pageButtons.forEach(btn => btn.classList.remove("active"));
+  pageButtons.forEach((btn) => btn.classList.remove("active"));
 
-  pageButtons.forEach(btn => {
-    if (btn.textContent == currentPage) {
+  pageButtons.forEach((btn) => {
+    const page = parseInt(btn.textContent);
+
+    if (page === currentPage) {
       btn.classList.add("active");
     }
   });
 
-  renderJobs();
-
-  /* scroll UX 🔥 */
-  window.scrollTo({
-    top: document.querySelector(".jobs").offsetTop - 80,
-    behavior: "smooth"
-  });
+  // clamp
+  if (currentPage > totalPages) currentPage = 1;
 }
 
-/* events */
-pageButtons.forEach(btn => {
+/* =========================
+   EVENTS
+========================= */
+
+pageButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     if (btn.classList.contains("next")) {
-      changePage("next");
+      currentPage++;
     } else {
-      changePage(parseInt(btn.textContent));
+      currentPage = parseInt(btn.textContent);
     }
+
+    renderJobs();
   });
 });
 
-/* init */
+/* SEARCH */
+function applySearch() {
+  searchQuery = searchInput.value.toLowerCase();
+  currentPage = 1;
+  renderJobs();
+}
+
+searchBtn.addEventListener("click", applySearch);
+
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") applySearch();
+});
+
+/* TECH FILTERS */
+techCheckboxes.forEach((cb) => {
+  cb.addEventListener("change", () => {
+    if (cb.checked) {
+      selectedTech.add(cb.value);
+    } else {
+      selectedTech.delete(cb.value);
+    }
+
+    currentPage = 1;
+    renderJobs();
+  });
+});
+
+/* REMOTE */
+remoteCheckbox.addEventListener("change", () => {
+  remoteOnly = remoteCheckbox.checked;
+  currentPage = 1;
+  renderJobs();
+});
+
+/* RESET */
+resetBtn.addEventListener("click", () => {
+  searchQuery = "";
+  selectedTech.clear();
+  remoteOnly = false;
+
+  searchInput.value = "";
+  remoteCheckbox.checked = false;
+  techCheckboxes.forEach((cb) => (cb.checked = false));
+
+  currentPage = 1;
+  renderJobs();
+});
+
+/* INIT */
 renderJobs();
 
 /* =========================
-   6. SEARCH (BONUS)
-========================= */
-
-const searchInput = document.getElementById("searchInput");
-const searchBtn = document.getElementById("searchBtn");
-
-searchBtn.addEventListener("click", () => {
-  const value = searchInput.value.toLowerCase();
-
-  const filtered = jobs.filter(job =>
-    job.title.toLowerCase().includes(value)
-  );
-
-  jobList.innerHTML = "";
-
-  filtered.forEach(job => {
-    const el = document.createElement("div");
-    el.className = "job-card";
-
-    el.innerHTML = `<h3>${job.title}</h3>`;
-    jobList.appendChild(el);
-  });
-});
-
-/* =========================
-   7. STATS COUNTER
+   STATS
 ========================= */
 
 const counters = document.querySelectorAll(".stat-number");
 
-counters.forEach(counter => {
+counters.forEach((counter) => {
   const target = +counter.dataset.target;
   let count = 0;
 
@@ -196,37 +312,28 @@ counters.forEach(counter => {
 });
 
 /* =========================
-   8. TYPING EFFECT
+   TYPING EFFECT
 ========================= */
 
 const typedElement = document.getElementById("typedText");
 
-const words = [
-  "pracę marzeń",
-  "najlepsze oferty IT",
-  "zdalną pracę",
-  "top developerów"
-];
+const words = ["pracę marzeń", "najlepsze oferty IT", "zdalną pracę", "top devów"];
 
 let wordIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
 
 function typeEffect() {
-  const currentWord = words[wordIndex];
-  
-  if (isDeleting) {
-    charIndex--;
-  } else {
-    charIndex++;
-  }
+  const word = words[wordIndex];
 
-  typedElement.textContent = currentWord.substring(0, charIndex);
+  charIndex += isDeleting ? -1 : 1;
+
+  typedElement.textContent = word.substring(0, charIndex);
 
   let speed = isDeleting ? 50 : 100;
 
-  if (!isDeleting && charIndex === currentWord.length) {
-    speed = 1500;
+  if (!isDeleting && charIndex === word.length) {
+    speed = 1200;
     isDeleting = true;
   } else if (isDeleting && charIndex === 0) {
     isDeleting = false;
@@ -237,7 +344,4 @@ function typeEffect() {
   setTimeout(typeEffect, speed);
 }
 
-/* start */
-if (typedElement) {
-  typeEffect();
-}
+if (typedElement) typeEffect();
